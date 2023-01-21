@@ -58,7 +58,7 @@ fn post(form: Form<Message>, queue: &State<Sender<Message>>) {
 
 #[launch]
 fn rocket() -> _ {
-    let static_path = std::env::var("STATIC_FOLDER").unwrap_or("static".to_string());
+    let static_path = std::env::var("STATIC_FOLDER").unwrap_or("docs".to_string());
     rocket::build()
         .manage(channel::<Message>(1024).0)
         .mount("/", routes![post, events])
