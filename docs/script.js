@@ -11,6 +11,8 @@ let messageField = newMessageForm.querySelector("#message");
 let usernameField = newMessageForm.querySelector("#username");
 let roomNameField = newRoomForm.querySelector("#name");
 
+const serverPrefix = "https://api.llyth.net/rust_chat_server"
+
 var STATE = {
   room: "lobby",
   rooms: {},
@@ -143,7 +145,7 @@ function init() {
     if (!message || !username) return;
 
     if (STATE.connected) {
-      fetch("./message", {
+      fetch(`${serverPrefix}/message`, {
         method: "POST",
         body: new URLSearchParams({ room, username, message }),
       }).then((response) => {
@@ -164,7 +166,7 @@ function init() {
 
     addMessage(room, "Admin", `Look, your own "${room}" room! Nice.`, true);
   })
-  subscribe("./events");
+  subscribe(`${serverPrefix}/events`)
 }
 
 init();
