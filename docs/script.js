@@ -164,8 +164,6 @@ function init() {
 
     addMessage(room, "Admin", `Look, your own "${room}" room! Nice.`, true);
   })
-
-  // Subscribe to server-sent events.
   subscribe("./events");
 }
 
