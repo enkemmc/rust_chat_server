@@ -166,7 +166,7 @@ function init() {
   })
 
   // Subscribe to server-sent events.
-  subscribe("rust_chat_server/events");
+  subscribe("/events");
 }
 
 init();
