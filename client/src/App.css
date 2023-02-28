@@ -1,0 +1,140 @@
+:root {
+  --bg-dark: #242423;
+  --bg-light: #333533;
+  --fg-light: #E8EDDF;
+  --other: #959d95;
+  --callout: rgb(255, 255, 102);
+  --callout-dark: #101010;
+}
+
+html, body, main {
+  color: #fff;
+  height: 100vh;
+  background-color: var(--other);
+}
+
+main {
+  background-color: var(--bg-dark);
+}
+
+#root {
+  height: 100%;
+}
+
+.bound {
+  border: thin solid #fff;
+}
+
+.wrapper1 {
+  height: 100%;
+  display: flex;
+}
+
+.messages {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-dark);
+  flex: 1;
+  padding: 20px;
+  padding-bottom: 0px;
+}
+
+.scroller {
+  display: flex;
+  flex-direction: column-reverse;
+  overflow: auto;
+  flex: 1;
+}
+
+.content {
+  display: flex;
+  width: 70%;
+  flex-direction: column;
+}
+
+.message {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 0;
+}
+
+.message:last-child {
+  padding-bottom: 20px;
+}
+
+.toolbar-left {
+  background-color: var(--bg-light);
+  height: 100%;
+  width: 30%;
+  min-width: 85px;
+  display: flex;
+  flex-direction: column;
+}
+
+.left-item {
+  padding-left: 6px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.status {
+  display: flex;
+}
+
+.status.reconnecting {
+  background-color: red;
+}
+
+.status.connected {
+  background-color: green;
+}
+
+.room-list {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.room-list > button {
+  background: var(--bg-light);
+  color: #fff;
+  justify-content: left;
+  display: flex;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.room-list > button.active {
+  background: var(--bg-dark);
+  color: var(--callout);
+  font-weight: bold;
+}
+
+button {
+  border: 0;
+}
+
+form {
+  width: 100%;
+  display: flex;
+}
+
+form > input {
+  width: 100%;
+  border: 0;
+  padding: 0;
+  min-height: 30px;
+}
+
+.name-field {
+  flex: 1;
+  padding: 0px 10px;
+  border-left: 1px solid black;
+}
+
+.message-field {
+  display: flex;
+  flex: 4;
+  padding: 0px 10px;
+  border-left: 1px solid black;
+}
