@@ -1,4 +1,5 @@
 {
+  "homepage": "https://enkemmc.github.io/rust_chat_server",
   "name": "client",
   "version": "0.1.0",
   "private": true,
