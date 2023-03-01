@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { FormEvent, EventHandler, MouseEventHandler, ChangeEvent } from 'react'
-import logo from './logo.svg';
+import React, { useState, useEffect, FormEventHandler } from 'react';
+import { MouseEventHandler, ChangeEvent } from 'react'
 import './App.css';
 
 const devmode = true
@@ -114,21 +113,21 @@ function App() {
   }, [])
 
   return (
-    <div className="wrapper1">
-      <div className="toolbar-left">
-        <StatusDisplay status={state.status}/>
-        <RoomList roomnames={Object.keys(state.messages)} currentRoom={state.currentRoom} changeRoom={changeRoom}/>
-        <NewRoom className="bottom bottom-item" createRoom={createRoom}/>
-      </div>
-      <div className="content">
-        <div className="scroller">
-          <div className="messages">
-            <DisplayMessages messages={state.messages} roomName={state.currentRoom} />
-          </div>
+      <div className="wrapper">
+        <div className="toolbar-left">
+          <StatusDisplay status={state.status}/>
+          <RoomList roomnames={Object.keys(state.messages)} currentRoom={state.currentRoom} changeRoom={changeRoom}/>
+          <NewRoom createRoom={createRoom}/>
         </div>
-        <EnterMessage room={state.currentRoom} />
+        <div className="content">
+          <div className="scroller">
+            <div className="messages">
+              <DisplayMessages messages={state.messages} roomName={state.currentRoom} />
+            </div>
+          </div>
+          <EnterMessage room={state.currentRoom} />
+        </div>
       </div>
-    </div>
   )
 }
 
@@ -190,7 +189,7 @@ const EnterMessage = (props: IEnterMessage) => {
     updateUsername(event.target.value)
   }
 
-  const buttonClick: MouseEventHandler = e => {
+  const submit: FormEventHandler = e => {
     e.preventDefault()
 
     fetch(`${serverPrefix}/message`, { 
@@ -199,29 +198,22 @@ const EnterMessage = (props: IEnterMessage) => {
     })
       .then(resp => {
         if (resp.ok) {
-          console.log('clear the message field since the msg successfully sent!')
+          updateMessage('')
         }
       })
   }
 
   return (
-    <div style={{ 
-      display: 'flex',
-      backgroundColor: '#fff'
-    }}>
-      <div 
-        className='name-field'
-      >
+    <div className='form-wrapper'>
+      <div className='name-field'>
         <form>
-          <input type="text" name="username" placeholder="Guest" maxLength={20} onChange={changeName} value={username}/>
+          <input className="pad-left-content" type="text" name="username" placeholder="Guest" maxLength={20} onChange={changeName} value={username}/>
         </form>
       </div>
-      <div 
-        className='message-field'
-      >
-        <form>
-          <input type="text" name="message" placeholder="Send a message" maxLength={100} onChange={changeMessage} value={message}/>
-          <button type="submit" onClick={buttonClick}>Send</button>
+      <div className='message-field '>
+        <form onSubmit={submit}>
+          <input className="pad-left-content" type="text" name="message" placeholder="Send a message" maxLength={100} onChange={changeMessage} value={message}/>
+          <button className="bottom" type="submit">Send</button>
         </form>
       </div>
     </div>
@@ -234,7 +226,7 @@ interface IStatusDisplay {
   status: Status
 }
 const StatusDisplay = ({ status }: IStatusDisplay) => {
-  const classname = `status ${status} left-item`
+  const classname = `status ${status} left-item pad-left-content`
   return (
     <div 
       className={classname}
@@ -244,11 +236,11 @@ const StatusDisplay = ({ status }: IStatusDisplay) => {
   )
 }
 
-interface INewRoom extends React.HTMLAttributes<HTMLDivElement> {
+interface INewRoom {
   createRoom: (roomname: string) => void
 }
 
-const NewRoom = ({ className, createRoom }: INewRoom) => {
+const NewRoom = ({ createRoom }: INewRoom) => {
   const [roomname, updateRoomName] = useState('')
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     updateRoomName(event.target.value)
@@ -259,11 +251,11 @@ const NewRoom = ({ className, createRoom }: INewRoom) => {
   }
   return (
     <div 
-      className={className} 
+      className='form-wrapper'
     >
       <form>
-        <input type="text" id="name" name="name" placeholder="new room name..." maxLength={30} value={roomname} onChange={handleChange} />
-        <button type="submit" onClick={handleClick}>+</button>
+        <input className="pad-left-content" type="text" id="name" name="name" placeholder="New room..." maxLength={30} value={roomname} onChange={handleChange} />
+        <button className="bottom" type="submit" onClick={handleClick}>+</button>
       </form>
     </div>
   )
@@ -279,7 +271,7 @@ const RoomList = (props: RoomListProps) => {
   const { roomnames, currentRoom, changeRoom } = props
 
   const getClass = (roomname: string) => {
-    return roomname === currentRoom ? 'room active left-item' : 'room left-item'
+    return roomname === currentRoom ? 'room active pad-left-content' : 'room pad-left-content'
   }
 
   return (
