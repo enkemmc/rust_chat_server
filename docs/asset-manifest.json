@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/rust_chat_server/static/css/main.84007447.css",
-    "main.js": "/rust_chat_server/static/js/main.33f64d85.js",
+    "main.css": "/rust_chat_server/static/css/main.153b9a72.css",
+    "main.js": "/rust_chat_server/static/js/main.13b23121.js",
     "static/js/787.c4e7f8f9.chunk.js": "/rust_chat_server/static/js/787.c4e7f8f9.chunk.js",
     "index.html": "/rust_chat_server/index.html",
-    "main.84007447.css.map": "/rust_chat_server/static/css/main.84007447.css.map",
-    "main.33f64d85.js.map": "/rust_chat_server/static/js/main.33f64d85.js.map",
+    "main.153b9a72.css.map": "/rust_chat_server/static/css/main.153b9a72.css.map",
+    "main.13b23121.js.map": "/rust_chat_server/static/js/main.13b23121.js.map",
     "787.c4e7f8f9.chunk.js.map": "/rust_chat_server/static/js/787.c4e7f8f9.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.84007447.css",
-    "static/js/main.33f64d85.js"
+    "static/css/main.153b9a72.css",
+    "static/js/main.13b23121.js"
   ]
 }

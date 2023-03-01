@@ -11,7 +11,7 @@ html, body, main {
   color: #fff;
   height: 100vh;
   background-color: var(--other);
-  font-size: larger;
+  font-size: .9em;
 }
 
 input, button, textarea, select {
@@ -73,7 +73,7 @@ input, button, textarea, select {
 .toolbar-left {
   background-color: var(--bg-light);
   height: 100%;
-  width: 30%;
+  width: 35%;
   min-width: 85px;
   display: flex;
   flex-direction: column;
@@ -85,7 +85,7 @@ input, button, textarea, select {
 }
 
 .pad-left-content {
-  padding-left: 20px;
+  padding-left: 10px;
 }
 
 .status {

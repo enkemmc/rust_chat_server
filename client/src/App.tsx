@@ -253,7 +253,7 @@ const NewRoom = ({ createRoom }: INewRoom) => {
       className='form-wrapper'
     >
       <form>
-        <input className="pad-left-content" type="text" id="name" name="name" placeholder="New room..." maxLength={30} value={roomname} onChange={handleChange} />
+        <input className="pad-left-content" type="text" id="name" name="name" placeholder="New room..." maxLength={20} value={roomname} onChange={handleChange} />
         <button className="bottom" type="submit" onClick={handleClick}>+</button>
       </form>
     </div>
