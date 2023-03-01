@@ -2,7 +2,7 @@ import React, { useState, useEffect, FormEventHandler } from 'react';
 import { MouseEventHandler, ChangeEvent } from 'react'
 import './App.css';
 
-const serverPrefix = process.env.NODE_ENV === 'development' ? '' : 'https://api.llyth.net/rust_chat_server'
+const serverPrefix = devmode ? '' : 'https://api.llyth.net/rust_chat_server'
 
 interface AppState {
   currentRoom: string
