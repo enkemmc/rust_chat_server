@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/static/css/main.84007447.css",
-    "main.js": "/static/js/main.461215c8.js",
-    "static/js/787.c4e7f8f9.chunk.js": "/static/js/787.c4e7f8f9.chunk.js",
-    "index.html": "/index.html",
-    "main.84007447.css.map": "/static/css/main.84007447.css.map",
-    "main.461215c8.js.map": "/static/js/main.461215c8.js.map",
-    "787.c4e7f8f9.chunk.js.map": "/static/js/787.c4e7f8f9.chunk.js.map"
+    "main.css": "/rust_chat_server/static/css/main.84007447.css",
+    "main.js": "/rust_chat_server/static/js/main.4c9a7638.js",
+    "static/js/787.c4e7f8f9.chunk.js": "/rust_chat_server/static/js/787.c4e7f8f9.chunk.js",
+    "index.html": "/rust_chat_server/index.html",
+    "main.84007447.css.map": "/rust_chat_server/static/css/main.84007447.css.map",
+    "main.4c9a7638.js.map": "/rust_chat_server/static/js/main.4c9a7638.js.map",
+    "787.c4e7f8f9.chunk.js.map": "/rust_chat_server/static/js/787.c4e7f8f9.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.84007447.css",
-    "static/js/main.461215c8.js"
+    "static/js/main.4c9a7638.js"
   ]
 }
