@@ -193,7 +193,7 @@ const EnterMessage = (props: IEnterMessage) => {
 
     fetch(`${serverPrefix}/message`, { 
         method: 'POST', 
-      body: new URLSearchParams({ room, username, message })
+      body: new URLSearchParams({ room, username: username == '' ? 'Guest' : username, message })
     })
       .then(resp => {
         if (resp.ok) {
