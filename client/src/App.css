@@ -9,7 +9,7 @@
 
 html, body, main {
   color: #fff;
-  height: 100vh;
+  height: -webkit-fill-available;
   background-color: var(--other);
   font-size: .9em;
 }
@@ -19,8 +19,7 @@ input, button, textarea, select {
 }
 
 #root {
-  padding: 1vh 1vw;
-  height: 98vh;
+  height: -webkit-fill-available;
   background-color: var(--other);
 }
 
@@ -29,7 +28,7 @@ input, button, textarea, select {
 }
 
 .wrapper {
-  height: 100%;
+  height: -webkit-fill-available;
   display: flex;
   margin: 0 auto;
   box-shadow: 10px 5px 50px black;
@@ -72,7 +71,7 @@ input, button, textarea, select {
 
 .toolbar-left {
   background-color: var(--bg-light);
-  height: 100%;
+  height: -webkit-fill-available;
   width: 35%;
   min-width: 85px;
   display: flex;
