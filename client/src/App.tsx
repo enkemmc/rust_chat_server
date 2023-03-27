@@ -60,8 +60,6 @@ function App() {
 
   const addMessage = (room: string, username: string, message: string, push = false) => {
     if (push) {
-      console.log('pushed')
-      console.log(room, username, message)
       setState(prevState => ({
         ...prevState,
         messages: {
@@ -93,18 +91,15 @@ function App() {
     }
 
     sse.onerror = () => {
-      console.log('there was an error')
       setConnectedStatus(Status.Reconnecting)
       sse.close()
     }
 
     sse.onopen = e => {
-      console.log('open!')
       setConnectedStatus(Status.Connected)
     }
 
     return () => {
-      console.log('closing dead connection')
       setConnectedStatus(Status.Reconnecting)
       sse.close()
     }
@@ -205,12 +200,12 @@ const EnterMessage = (props: IEnterMessage) => {
   return (
     <div className='form-wrapper'>
       <div className='name-field'>
-        <form>
+        <form autoComplete='off'>
           <input className="pad-left-content" type="text" name="username" placeholder="Guest" maxLength={20} onChange={changeName} value={username}/>
         </form>
       </div>
       <div className='message-field '>
-        <form onSubmit={submit}>
+        <form onSubmit={submit} autoComplete='off'>
           <input className="pad-left-content" type="text" name="message" placeholder="Send a message" maxLength={100} onChange={changeMessage} value={message}/>
           <button className="bottom" type="submit">Send</button>
         </form>
@@ -252,7 +247,7 @@ const NewRoom = ({ createRoom }: INewRoom) => {
     <div 
       className='form-wrapper'
     >
-      <form>
+      <form autoComplete='off'>
         <input className="pad-left-content" type="text" id="name" name="name" placeholder="New room..." maxLength={20} value={roomname} onChange={handleChange} />
         <button className="bottom" type="submit" onClick={handleClick}>+</button>
       </form>
