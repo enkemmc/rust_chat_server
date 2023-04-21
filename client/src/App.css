@@ -8,7 +8,6 @@
 }
 
 html, body, main {
-  color: #fff;
   height: -webkit-fill-available;
   background-color: var(--other);
   font-size: .9em;
@@ -179,3 +178,4 @@ form > input {
     width: 20%;
   }
 }
+

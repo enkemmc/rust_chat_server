@@ -1,0 +1,127 @@
+:root {
+  --rooms-vertical-gap: 10px;
+}
+
+.rooms-container {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: var(--menu-collapsed-width);
+  background-color: #f1f1f1;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.2s ease-in-out;
+  font-size: .9rem;
+}
+
+.rooms-container:first-child {
+  padding: 100px 10px 0px 10px;
+}
+
+.rooms-container.expanded {
+  width: var(--menu-expanded-width);
+}
+
+.rooms-header {
+  padding: 5px 10px;
+  display: flex;
+  justify-content: center;
+  border: 1px solid #007bff;
+  border-radius: 5px;
+  align-items: center;
+  margin-bottom: var(--rooms-vertical-gap);
+  margin-left: 5px;
+  margin-right: 5px;
+  transition: all 0.2s linear;
+  fill: #007bff;
+}
+
+.rooms-header:active {
+  background-color: #007bff;
+  fill: #fff;
+}
+
+.arrow.rotate-180 {
+  transform: rotate(180deg);
+}
+
+@media (min-width: 768px) {
+  .rooms-container {
+    width: var(--menu-expanded-width);
+  }
+  .rooms-header {
+    display: none;
+  }
+}
+
+.rooms-list {
+  flex-grow: 1;
+  overflow-y: auto;
+  overflow: visible;
+  display: flex;
+  flex-direction: column;
+  gap: var(--rooms-vertical-gap);
+}
+
+.rooms-list > * {
+  margin: 0px 5px;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,.2), 0 6px 20px 0 rgba(0,0,0,.19);
+}
+
+.room-item {
+  padding: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  z-index: 1;
+}
+
+.room-item:active {
+  background-color: #9da7b1;
+  color: white;
+  transform: translateX(15px);
+}
+
+.room-item.expanded {
+  background-color: #9da7b1;
+  color: white;
+}
+
+.room-item.current {
+  background-color: #007bff;
+  color: white;
+}
+
+.new-room-button {
+  padding: 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.new-room-button:hover {
+  background-color: #0069d9;
+}
+
+.new-room-input {
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+}
+
+.new-room-form {
+  display: flex;
+  align-items: center;
+}
+
+.new-room-form input {
+  width: 100%;
+}
+

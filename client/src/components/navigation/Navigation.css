@@ -1,0 +1,19 @@
+.navigation-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  background-color: var(--fg-light);
+}
+
+@media (min-width: 1360px) {
+  .navigation-containerr {
+    max-width: 1360px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}

@@ -1,0 +1,40 @@
+.collapseable-menu {
+  display: inline-block;
+  position: relative;
+}
+
+.collapseable-menu button {
+  display: flex;
+  align-items: center;
+  border: none;
+  cursor: pointer;
+  color: white;
+}
+
+.arrow-icon {
+  display: inline-block;
+  margin-left: 5px;
+  vertical-align: middle;
+}
+
+.menu-items {
+  position: absolute;
+  cursor: pointer;
+  top: 100%;
+  right: 0;
+  background-color: white;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  padding: 10px;
+  z-index: 1;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.menu-item {
+  margin: 5px 0;
+}
+
+.menu-item:hover {
+  background-color: #f1f1f1;
+}

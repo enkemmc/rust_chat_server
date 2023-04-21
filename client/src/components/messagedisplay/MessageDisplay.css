@@ -1,0 +1,32 @@
+.message-display-container {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  justify-content: flex-end;
+  padding-left: calc(20px + var(--menu-collapsed-width));
+}
+
+@media (min-width: 768px) {
+  .message-display-container {
+    padding-left: calc(20px + var(--menu-expanded-width));
+  }
+}
+
+.message-list {
+  flex-grow: 1;
+  overflow-y: auto;
+  flex-direction: column-reverse;
+  display: flex;
+  height: calc(100% - 100px);
+}
+
+.message-item {
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+  color: white;
+}
+
+.message-sender {
+  font-weight: bold;
+}

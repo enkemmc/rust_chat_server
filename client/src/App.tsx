@@ -1,14 +1,25 @@
-import React, { useState, useEffect, FormEventHandler } from 'react';
+import React, { useRef, useState, useEffect, FormEventHandler } from 'react';
 import { MouseEventHandler, ChangeEvent } from 'react'
-import './App.css';
+//import './App.css';
+import './newApp.css'
+import Signin from './components/signin/Signin'
+import NewEnterMessage from './components/entermessage/EnterMessage'
+import Rooms from './components/rooms/Rooms'
+import MessageDisplay, { Message } from './components/messagedisplay/MessageDisplay'
+import Navigation from './components/navigation/Navigation'
+import Logo from './components/navigation/Logo'
+import Centered from './components/wrappers/Centered'
 
-const serverPrefix = process.env.NODE_ENV === 'development' ? '' : 'https://api.llyth.net/rust_chat_server'
+const serverPrefix = process.env.NODE_ENV === 'development' ? 'https://api.llyth.net/rust_chat_server' : 'https://api.llyth.net/rust_chat_server'
+
 
 interface AppState {
-  currentRoom: string
-  status: Status,
+  currentChannel: string
+  username: string
+  status: Status
+  nextId: number
   messages: {
-    [key: string]: { [key: string]: string }[]
+    [key: string]: Message[]
   }
 }
 
@@ -17,38 +28,53 @@ enum Status {
   Connected = "connected"
 }
 
+const loadFakeMessages = (state: AppState) => {
+  const messages = state.messages
+  const rooms = Object.keys(messages)
+  rooms.forEach(room => {
+    for (let i = 0; i < 100; i++) {
+      messages[room].push({
+        id: state.nextId,
+        sender: 'Admin',
+        message: `This is a fake message for ${room}`
+      })
+      state.nextId++
+      }
+    })
+}
+
 function App() {
   const initialState: AppState = {
-    currentRoom: 'lobby',
+    currentChannel: 'lobby',
     status: Status.Reconnecting,
+    username: 'Guest',
+    nextId: 1,
     messages: {
       lobby: [
-        { 'Admin': 'Welcome to the lobby!' },
+        { id: 0, sender: 'Admin', message: 'Welcome to the lobby!' }
       ]
     }
   }
 
-  const [state, setState] = useState(initialState)
-  const changeRoom = (newName: string) => {
-    setState(prevState => ({
-      ...prevState,
-      currentRoom: newName
-    }))
+  if (process.env.NODE_ENV === 'development') {
+    //loadFakeMessages(initialState)
   }
 
-  const createRoom = (newName: string) => {
-    if (!Object.keys(state.messages).includes(newName)) {
-      setState(prevState => ({
-        ...prevState,
-        messages: {
-          ...prevState.messages,
-          [newName]: [
-            { 'Admin': `Welcome to ${newName}` },
-          ]
-        },
-        currentRoom: newName
-      }))
-    }  
+  const [state, setState] = useState(initialState)
+
+  const latestNextId = useRef(state.nextId);
+
+  useEffect(() => {
+    latestNextId.current = state.nextId;
+  }, [state.nextId]);
+
+  const getNextId = (): number => {
+    setState(prevState => ({
+      ...prevState,
+      nextId: prevState.nextId + 1
+    }));
+    let newval = latestNextId.current + 1;
+    return newval
   }
 
   const setConnectedStatus = (status: Status) => {
@@ -58,13 +84,13 @@ function App() {
     }))
   }
 
-  const addMessage = (room: string, username: string, message: string, push = false) => {
+  const storeMessage = (room: string, username: string, message: string, push = false) => {
     if (push) {
       setState(prevState => ({
         ...prevState,
         messages: {
           ...prevState.messages,
-          [room]: [...prevState.messages[room], { [`${username}`]: `${message}` }]
+          [room]: [...prevState.messages[room], { id: getNextId(), sender: username, message }]
         }
       }))
     } else {
@@ -72,6 +98,21 @@ function App() {
     }
   }
 
+  const handleSignIn = (email: string, password: string) => {
+    console.log('signin clicked')
+  }
+
+  const handleSend = (message: string) => {
+    fetch(`${serverPrefix}/message`, { 
+        method: 'POST', 
+      body: new URLSearchParams({ room: state.currentChannel, username: state.username, message })
+    })
+    .then(resp => {
+      if (resp.ok) {
+          // server received
+      }
+    })
+  }
 
   useEffect(() => {
     if (state.status === Status.Connected) {
@@ -86,7 +127,7 @@ function App() {
         return console.error('object was missing room username or message')
       } else {
         const { room, username, message } = data
-        addMessage(room, username, message, true)
+        storeMessage(room, username, message, true)
       }
     }
 
@@ -106,179 +147,39 @@ function App() {
 
   }, [])
 
-  return (
-      <div className="wrapper">
-        <div className="toolbar-left">
-          <StatusDisplay status={state.status}/>
-          <RoomList roomnames={Object.keys(state.messages)} currentRoom={state.currentRoom} changeRoom={changeRoom}/>
-          <NewRoom createRoom={createRoom}/>
-        </div>
-        <div className="content">
-          <div className="scroller">
-            <div className="messages">
-              <DisplayMessages messages={state.messages} roomName={state.currentRoom} />
-            </div>
-          </div>
-          <EnterMessage room={state.currentRoom} />
-        </div>
-      </div>
-  )
-}
-
-interface ISubmitMessage {
- room: string, message: string, username: string 
-}
-
-interface IDisplayMessages {
-  messages: {
-    [key: string]: { [key: string]: string }[]
-  },
-  roomName: string
-}
-
-const hashColor = (str: string) => {
-  let hash = 0;
-  for (var i = 0; i < str.length; i++) {
-    hash = str.charCodeAt(i) + ((hash << 5) - hash);
-    hash = hash & hash;
+  const handleSelectRoom = (roomName: string) => {
+    setState(prevState => ({
+      ...prevState,
+      currentChannel: roomName
+    }))
   }
 
-  return `hsl(${hash % 360}, 100%, 70%)`;
-}
+  const handleAddRoom = (roomName: string) => {
+    setState(prevState => ({
+      ...prevState,
+      messages: {
+        [roomName]: [{ id: getNextId(), sender: 'Admin', message: `Welcome to ${roomName}!` }],
+        ...prevState.messages,
+      },
+      currentChannel: roomName
+    }))
+  }
 
-const DisplayMessages = ({ messages, roomName }: IDisplayMessages) => {
   return (
     <>
-      {
-        messages[roomName] ?
-          messages[roomName].map((message, i) => {
-            const [name, text] = Object.entries(message)[0]
-            return (
-              <div className="message" key={`${roomName} ${i}`}>
-                <span className={name} style={{ color: hashColor(name) }}>{name}</span>
-                <span className="text">{text}</span>
-              </div>
-            )
-          })
-        :
-        null
-      }
-  </>
-  )
-}
-
-interface IEnterMessage {
-  room: string
-}
-
-const EnterMessage = (props: IEnterMessage) => {
-  const { room } = props
-  const [message, updateMessage] = useState('')
-  const [username, updateUsername] = useState('')
-  const changeMessage = (event: ChangeEvent<HTMLInputElement>) => {
-    updateMessage(event.target.value)
-  }
-
-  const changeName = (event: ChangeEvent<HTMLInputElement>) => {
-    updateUsername(event.target.value)
-  }
-
-  const submit: FormEventHandler = e => {
-    e.preventDefault()
-
-    fetch(`${serverPrefix}/message`, { 
-        method: 'POST', 
-      body: new URLSearchParams({ room, username: username == '' ? 'Guest' : username, message })
-    })
-      .then(resp => {
-        if (resp.ok) {
-          updateMessage('')
-        }
-      })
-  }
-
-  return (
-    <div className='form-wrapper'>
-      <div className='name-field'>
-        <form autoComplete='off'>
-          <input className="pad-left-content" type="text" name="username" placeholder="Guest" maxLength={20} onChange={changeName} value={username}/>
-        </form>
-      </div>
-      <div className='message-field '>
-        <form onSubmit={submit} autoComplete='off'>
-          <input className="pad-left-content" type="text" name="message" placeholder="Send a message" maxLength={100} onChange={changeMessage} value={message}/>
-          <button className="bottom" type="submit">Send</button>
-        </form>
-      </div>
-    </div>
+      <Centered>
+        <Navigation>
+          <Logo />
+          {/* <Signin onSignIn={handleSignIn}/> */}
+        </Navigation>
+        <div style={{ height: '100%' }}>
+          <Rooms rooms={Object.keys(state.messages)} onSelectRoom={handleSelectRoom} onAddRoom={handleAddRoom} currentRoom={state.currentChannel}/>
+          <MessageDisplay messages={state.messages[state.currentChannel]} currentChannel={state.currentChannel} />
+          <NewEnterMessage onSend={handleSend}/>
+        </div>
+      </Centered>
+    </>
   )
 }
 
 export default App;
-
-interface IStatusDisplay {
-  status: Status
-}
-const StatusDisplay = ({ status }: IStatusDisplay) => {
-  const classname = `status ${status} left-item pad-left-content`
-  return (
-    <div 
-      className={classname}
-    >
-      {status}
-    </div>
-  )
-}
-
-interface INewRoom {
-  createRoom: (roomname: string) => void
-}
-
-const NewRoom = ({ createRoom }: INewRoom) => {
-  const [roomname, updateRoomName] = useState('')
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    updateRoomName(event.target.value)
-  }
-  const handleClick: MouseEventHandler = event => {
-    event.preventDefault()
-    createRoom(roomname)
-  }
-  return (
-    <div 
-      className='form-wrapper'
-    >
-      <form autoComplete='off'>
-        <input className="pad-left-content" type="text" id="name" name="name" placeholder="New room..." maxLength={20} value={roomname} onChange={handleChange} />
-        <button className="bottom" type="submit" onClick={handleClick}>+</button>
-      </form>
-    </div>
-  )
-}
-
-interface RoomListProps {
-  roomnames: string[]
-  currentRoom: string
-  changeRoom: (name: string) => void
-}
-
-const RoomList = (props: RoomListProps) => {
-  const { roomnames, currentRoom, changeRoom } = props
-
-  const getClass = (roomname: string) => {
-    return roomname === currentRoom ? 'room active pad-left-content' : 'room pad-left-content'
-  }
-
-  return (
-    <div 
-      className='room-list'
-    >
-      {roomnames.map((name, i) => (
-        <React.Fragment key={i}>
-          <button 
-            onClick={() => changeRoom(name)}
-            className={getClass(name)}>{name}</button>
-        </React.Fragment>
-      ))}
-      </div>
-  )
-}

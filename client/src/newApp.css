@@ -1,0 +1,75 @@
+:root {
+  --bg-dark: #242423;
+  --bg-light: #959d95;
+  --fg-light: #f1f1f1;
+  --other: #959d95;
+  --callout: rgb(255, 255, 102);
+  --callout-dark: #101010;
+
+  --menu-collapsed-width: 70px;
+  --menu-expanded-width: 200px;
+
+  --font-size-xlarge: 24px;
+  --font-size-large: 22px;
+  --font-size-medium: 20px;
+  --font-size-small: 18px;
+  --font-size-xsmall: 16px;
+  --font-size-xxsmall: 14px;
+}
+
+html, body, main {
+  height: -webkit-fill-available;
+}
+
+html {
+  background-color: var(--bg-light);
+  font-size: var(--font-size-xxsmall);
+}
+
+input, button, textarea, select {
+  font: inherit;
+}
+
+#root {
+  height: -webkit-fill-available;
+  background-color: var(--other);
+}
+
+.hidden {
+  display: none;
+}
+
+.shadow {
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,.2), 0 6px 20px 0 rgba(0,0,0,.19);
+}
+
+@media (min-width: 600px) {
+  html {
+    font-size: var(--font-size-xsmall);
+  }
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: var(--font-size-small);
+  }
+}
+
+@media (min-width: 1280px) {
+  html {
+    font-size: var(--font-size-medium);
+  }
+}
+
+
+@media (min-width: 1025px) {
+  html {
+    font-size: var(--font-size-large);
+  }
+}
+
+@media (min-width: 1360px) {
+  html {
+    font-size: var(--font-size-xlarge);
+  }
+}

@@ -1,0 +1,11 @@
+.centered {
+  position: relative;
+  max-width: 1360px;
+  height: 100%;
+}
+
+@media (min-width: 1360px) {
+  .centered {
+    margin: 0px calc((100% - 1360px)/2);
+  }
+}
