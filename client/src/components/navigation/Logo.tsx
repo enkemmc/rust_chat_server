@@ -5,8 +5,12 @@ import Crab from '!file-loader!../../assets/rustacean-flat-gesture.svg'
 import ReactLogo from '../../logo.svg'
 
 const Logo: React.FC = () => {
+  const handleClick = () => {
+    window.location.href = '/'
+  }
+
   return (
-    <div className="logo-container">
+    <div className="logo-container" onClick={handleClick}>
       <img src={Crab} className="rustacean" alt="Rustacean"/>
       <img src={ReactLogo} className="react-logo" alt="React Logo"/>
     </div>

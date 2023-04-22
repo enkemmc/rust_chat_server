@@ -1,7 +1,8 @@
 {
+  "name": "rust_chat_server",
+  "version": "1.0.0",
+  "description": "This project simulates a chat server. It is a client side application that connects to a server and allows users to send messages to each other.",
   "homepage": "https://enkemmc.github.io/rust_chat_server",
-  "name": "client",
-  "version": "0.1.0",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
@@ -18,6 +19,8 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "DISABLE_ESLINT_PLUGIN=true CHOKIDAR_USEPOLLING=true react-scripts start",
     "build": "DISABLE_ESLINT_PLUGIN=true react-scripts build",
     "test": "react-scripts test",
@@ -40,5 +43,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "gh-pages": "^5.0.0"
   }
 }

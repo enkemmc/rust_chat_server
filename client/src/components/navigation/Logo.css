@@ -1,12 +1,12 @@
 .logo-container {
   height: 100%;
+  cursor: pointer;
 }
 
 .rustacean {
   position: relative;
   height: 66px;
   padding: 5px;
-  cursor: pointer;
 }
 
 .react-logo {
