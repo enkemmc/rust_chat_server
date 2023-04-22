@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/rust_chat_server/static/css/main.2e07e13a.css",
-    "main.js": "/rust_chat_server/static/js/main.f71180b0.js",
+    "main.css": "/rust_chat_server/static/css/main.72430484.css",
+    "main.js": "/rust_chat_server/static/js/main.560ef2f8.js",
     "static/js/787.f756c598.chunk.js": "/rust_chat_server/static/js/787.f756c598.chunk.js",
     "rustacean-flat-gesture.svg": "/rust_chat_server/5a33b8031cede189025003d67504245c.svg",
     "static/media/logo.svg": "/rust_chat_server/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
     "index.html": "/rust_chat_server/index.html",
-    "main.2e07e13a.css.map": "/rust_chat_server/static/css/main.2e07e13a.css.map",
-    "main.f71180b0.js.map": "/rust_chat_server/static/js/main.f71180b0.js.map",
+    "main.72430484.css.map": "/rust_chat_server/static/css/main.72430484.css.map",
+    "main.560ef2f8.js.map": "/rust_chat_server/static/js/main.560ef2f8.js.map",
     "787.f756c598.chunk.js.map": "/rust_chat_server/static/js/787.f756c598.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.2e07e13a.css",
-    "static/js/main.f71180b0.js"
+    "static/css/main.72430484.css",
+    "static/js/main.560ef2f8.js"
   ]
 }
