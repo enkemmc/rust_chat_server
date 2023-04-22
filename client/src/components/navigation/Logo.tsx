@@ -12,7 +12,7 @@ const Logo: React.FC = () => {
   return (
     <div className="logo-container" onClick={handleClick}>
       <img src={Crab} className="rustacean" alt="Rustacean"/>
-      <img src={ReactLogo} className="react-logo" alt="React Logo"/>
+      <img src={ReactLogo} className="react-logo rotate" alt="React Logo"/>
     </div>
   );
 };

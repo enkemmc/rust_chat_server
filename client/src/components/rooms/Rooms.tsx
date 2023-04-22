@@ -11,7 +11,7 @@ interface RoomsProps {
 const Rooms: React.FC<RoomsProps> = ({ rooms, onSelectRoom, onAddRoom, currentRoom }) => {
   const [isAddingRoom, setIsAddingRoom] = useState(false);
   const [newRoomName, setNewRoomName] = useState('');
-  const [isExpanded, setIsExpanded] = useState(true);
+  const [isExpanded, setIsExpanded] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleNewRoomClick = () => {

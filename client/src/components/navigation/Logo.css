@@ -16,4 +16,14 @@
   height: 60%;
   width: auto;
   z-index: 2;
+  animation: rotation 10s infinite linear;
+}
+
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }

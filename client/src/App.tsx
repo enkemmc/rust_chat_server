@@ -51,7 +51,7 @@ function App() {
     nextId: 1,
     messages: {
       lobby: [
-        { id: 0, sender: 'Admin', message: 'Welcome to the lobby!' }
+        { id: 0, sender: 'Admin', message: 'Welcome to the lobby!  Try creating a new room with the Menu on the left.' }
       ]
     }
   }
