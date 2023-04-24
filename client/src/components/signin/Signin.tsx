@@ -1,48 +1,55 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './Signin.css'
 import CollapseableMenu from '../collapseablemenu/CollapseableMenu';
+import { useSession } from '../wrappers/SessionContext'
 
-interface SignInProps {
-  onSignIn: (email: string, password: string) => void;
-}
+const SignIn: React.FC = () => {
+  const { session, setSession } = useSession()
+  
+  const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    if (!session?.userData) {
+      window.location.href = `${process.env.PUBLIC_URL}/api/login`
+    }
+  } 
 
-const SignIn: React.FC<SignInProps> = ({ onSignIn }) => {
-  const [signedIn, setSignedIn] = useState(false);
-
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    onSignIn('email', 'password');
-    setSignedIn(true)
-  };
+  const handleLogout = async () => {
+    setSession({
+      ...session,
+      isLoggedIn: false,
+      userData: undefined
+    })
+    await fetch(`${process.env.PUBLIC_URL}/api/logout`)
+      .catch(e => console.log(`Error logging out: ${e}`))
+  }
 
   const navitems = [
     {
       name: 'Profile',
-      handler: () => console.log('profile clicked')
+      handler: () => console.log('Profile not yet implemented.')
     },
     {
       name: 'Sign out',
-      handler: () => {
-        console.log('signout clicked')
-        setSignedIn(false)
-      }
+      handler: handleLogout
     }
   ]
 
   return (
-    <div className="sign-in-container"> {/* add the class name to the container */}
-      <form onSubmit={handleSubmit}>
-        {signedIn && (
+    <div className="sign-in-container">
+      <form onSubmit={handleLogin}>
+        {session.isLoggedIn && session.userData && (
           <>
-            <CollapseableMenu items={navitems} name="UN and Pic"/>
+            <CollapseableMenu items={navitems} name={session.userData.username}/>
           </>
         )}
-        {!signedIn && (
+        {!session.isLoggedIn && (
           <button type="submit">Sign In</button>
         )}
       </form>
     </div>
   );
 };
+
+
 
 export default SignIn;

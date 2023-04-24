@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
 import './EnterMessage.css';
+import { useSession } from '../wrappers/SessionContext';
 
 interface EnterMessageProps {
-  onSend: (message: string) => void;
+  onSend: (message: string, username: string) => void;
 }
 
 const EnterMessage: React.FC<EnterMessageProps> = ({ onSend }) => {
   const [message, setMessage] = useState('');
+  const { session } = useSession()
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    onSend(message);
+    onSend(message, session.userData?.username || 'Guest');
     setMessage('');
   };
 

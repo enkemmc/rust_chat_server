@@ -6,7 +6,7 @@ import ReactLogo from '../../logo.svg'
 
 const Logo: React.FC = () => {
   const handleClick = () => {
-    window.location.href = '/'
+    window.location.href = 'https://enkemmc.github.io/'
   }
 
   return (

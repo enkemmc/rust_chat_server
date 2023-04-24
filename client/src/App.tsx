@@ -1,7 +1,5 @@
-import React, { useRef, useState, useEffect, FormEventHandler } from 'react';
-import { MouseEventHandler, ChangeEvent } from 'react'
-//import './App.css';
-import './newApp.css'
+import React, { useContext, useRef, useState, useEffect, FormEventHandler, MouseEventHandler, ChangeEvent } from 'react';
+import './App.css';
 import Signin from './components/signin/Signin'
 import NewEnterMessage from './components/entermessage/EnterMessage'
 import Rooms from './components/rooms/Rooms'
@@ -9,15 +7,11 @@ import MessageDisplay, { Message } from './components/messagedisplay/MessageDisp
 import Navigation from './components/navigation/Navigation'
 import Logo from './components/navigation/Logo'
 import Centered from './components/wrappers/Centered'
-
-const serverPrefix = process.env.NODE_ENV === 'development' ? 'https://api.llyth.net/rust_chat_server' : 'https://api.llyth.net/rust_chat_server'
-
+import { useSession, SessionProvider } from './components/wrappers/SessionContext'
 
 interface AppState {
   currentChannel: string
-  username: string
   status: Status
-  nextId: number
   messages: {
     [key: string]: Message[]
   }
@@ -32,50 +26,32 @@ const loadFakeMessages = (state: AppState) => {
   const messages = state.messages
   const rooms = Object.keys(messages)
   rooms.forEach(room => {
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < 30; i++) {
       messages[room].push({
-        id: state.nextId,
         sender: 'Admin',
         message: `This is a fake message for ${room}`
       })
-      state.nextId++
       }
     })
 }
 
 function App() {
+
   const initialState: AppState = {
     currentChannel: 'lobby',
     status: Status.Reconnecting,
-    username: 'Guest',
-    nextId: 1,
     messages: {
       lobby: [
-        { id: 0, sender: 'Admin', message: 'Welcome to the lobby!  Try creating a new room with the Menu on the left.' }
+        { sender: 'Admin', message: 'Welcome to the lobby!  Try creating a new room with the menu on the left.' }
       ]
     }
   }
 
   if (process.env.NODE_ENV === 'development') {
-    //loadFakeMessages(initialState)
+    loadFakeMessages(initialState)
   }
 
   const [state, setState] = useState(initialState)
-
-  const latestNextId = useRef(state.nextId);
-
-  useEffect(() => {
-    latestNextId.current = state.nextId;
-  }, [state.nextId]);
-
-  const getNextId = (): number => {
-    setState(prevState => ({
-      ...prevState,
-      nextId: prevState.nextId + 1
-    }));
-    let newval = latestNextId.current + 1;
-    return newval
-  }
 
   const setConnectedStatus = (status: Status) => {
     setState(prevState => ({
@@ -86,39 +62,42 @@ function App() {
 
   const storeMessage = (room: string, username: string, message: string, push = false) => {
     if (push) {
-      setState(prevState => ({
-        ...prevState,
-        messages: {
-          ...prevState.messages,
-          [room]: [...prevState.messages[room], { id: getNextId(), sender: username, message }]
+      setState(prevState => {
+        let current: Message[] = []
+        if (prevState.messages[room]){
+          current = [...prevState.messages[room]]
         }
-      }))
+        return {
+          ...prevState,
+          messages: {
+            ...prevState.messages,
+            [room]: [{ sender: username, message },...current]
+          }
+        }
+      })
     } else {
       // put system messages in here
     }
   }
 
-  const handleSignIn = (email: string, password: string) => {
-    console.log('signin clicked')
-  }
-
-  const handleSend = (message: string) => {
-    fetch(`${serverPrefix}/message`, { 
+  const handleSend = (message: string, username: string) => {
+    fetch(`${process.env.PUBLIC_URL}/api/message`, { 
         method: 'POST', 
-      body: new URLSearchParams({ room: state.currentChannel, username: state.username, message })
+      body: new URLSearchParams({ room: state.currentChannel, username, message })
     })
     .then(resp => {
       if (resp.ok) {
           // server received
       }
     })
+    .catch(e => console.log(`Error in handlesend ${e}`))
   }
 
   useEffect(() => {
     if (state.status === Status.Connected) {
       return
     }
-    const uri = `${serverPrefix}/events`
+    const uri = `${process.env.PUBLIC_URL}/api/events`
     const sse = new EventSource(uri)
 
     sse.onmessage = (event: MessageEvent) => {
@@ -136,7 +115,7 @@ function App() {
       sse.close()
     }
 
-    sse.onopen = e => {
+    sse.onopen = _e => {
       setConnectedStatus(Status.Connected)
     }
 
@@ -158,7 +137,7 @@ function App() {
     setState(prevState => ({
       ...prevState,
       messages: {
-        [roomName]: [{ id: getNextId(), sender: 'Admin', message: `Welcome to ${roomName}!` }],
+        [roomName]: [{ sender: 'Admin', message: `Welcome to ${roomName}!` }],
         ...prevState.messages,
       },
       currentChannel: roomName
@@ -166,11 +145,11 @@ function App() {
   }
 
   return (
-    <>
+    <SessionProvider>
       <Centered>
         <Navigation>
           <Logo />
-          {/* <Signin onSignIn={handleSignIn}/> */}
+          <Signin/>
         </Navigation>
         <div style={{ height: '100%' }}>
           <Rooms rooms={Object.keys(state.messages)} onSelectRoom={handleSelectRoom} onAddRoom={handleAddRoom} currentRoom={state.currentChannel}/>
@@ -178,7 +157,7 @@ function App() {
           <NewEnterMessage onSend={handleSend}/>
         </div>
       </Centered>
-    </>
+    </SessionProvider>
   )
 }
 
