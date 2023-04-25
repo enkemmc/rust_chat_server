@@ -3,7 +3,7 @@ address = "127.0.0.1"
 port = 8000
 keep_alive = 5
 log_level = "normal"
-secret_key = 123
+secret_key = "97eIYZB+vWz/hY/rn2XXIkRnR3tNuoxt3S/84fF2OAc="
 limits = { forms = 32768 }
 
 [release]
@@ -11,5 +11,5 @@ address = "0.0.0.0"
 port = 8000
 keep_alive = 5
 log_level = "critical"
-secret_key = 123
+secret_key = "97eIYZB+vWz/hY/rn2XXIkRnR3tNuoxt3S/84fF2OAc="
 limits = { forms = 32768 }
