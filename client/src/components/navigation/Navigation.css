@@ -1,14 +1,22 @@
+:root {
+  --nav-height-desktop: 76px;
+  --nav-height-mobile: 56px;
+}
+
 .navigation-container {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
   z-index: 1;
   display: flex;
   justify-content: space-between;
-  width: 100%;
+  align-items: center;
+  width: 100vw;
   background-color: var(--fg-light);
+  height: var(--nav-height-desktop);
 }
+
 
 @media (min-width: 1360px) {
   .navigation-container {
@@ -17,3 +25,10 @@
     transform: translateX(-50%);
   }
 }
+
+@media (max-width: 768px) {
+  .navigation-container {
+    height: var(--nav-height-mobile);
+  }
+}
+

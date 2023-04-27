@@ -5,14 +5,14 @@
 
 .rustacean {
   position: relative;
-  height: 66px;
-  padding: 5px;
+  height: 100%;
+  z-index: 1;
 }
 
 .react-logo {
   position: absolute;
   top: 0;
-  left: 0;
+  left: -20px;
   height: 60%;
   width: auto;
   z-index: 2;
@@ -25,5 +25,20 @@
   }
   to {
     transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 1396px) {
+  .rustacean {
+    padding-left: 10px;
+  }
+  .react-logo {
+    left: -13px;
+  }
+}
+
+@media (max-width: 768px) {
+  .react-logo {
+    left: -7px;
   }
 }
