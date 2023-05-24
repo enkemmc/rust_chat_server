@@ -2,7 +2,7 @@
   "name": "rust_chat_server",
   "version": "1.0.0",
   "description": "This project simulates a chat server. It is a client side application that connects to a server and allows users to send messages to each other.",
-  "homepage": "https://enkemmc.github.io/rust_chat_server",
+  "homepage": "/rust_chat_server",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",

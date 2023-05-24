@@ -9,7 +9,7 @@ const SignIn: React.FC = () => {
   const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     if (!session?.userData) {
-      window.location.href = `${process.env.PUBLIC_URL}/api/login`
+      window.location.href = `${process.env.REACT_APP_API_URL}/api/oauth2/github/login`
     }
   } 
 
@@ -19,7 +19,7 @@ const SignIn: React.FC = () => {
       isLoggedIn: false,
       userData: undefined
     })
-    await fetch(`${process.env.PUBLIC_URL}/api/logout`)
+    await fetch(`${process.env.REACT_APP_API_URL}/api/oauth2/github/logout`)
       .catch(e => console.log(`Error logging out: ${e}`))
   }
 

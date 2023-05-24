@@ -81,7 +81,7 @@ function App() {
   }
 
   const handleSend = (message: string, username: string) => {
-    fetch(`${process.env.PUBLIC_URL}/api/message`, { 
+    fetch(`${process.env.REACT_APP_API_URL}/api/rust_chat_server/message`, { 
         method: 'POST', 
       body: new URLSearchParams({ room: state.currentChannel, username, message })
     })
@@ -97,7 +97,7 @@ function App() {
     if (state.status === Status.Connected) {
       return
     }
-    const uri = `${process.env.PUBLIC_URL}/api/events`
+    const uri = `${process.env.REACT_APP_API_URL}/api/rust_chat_server/events`
     const sse = new EventSource(uri)
 
     sse.onmessage = (event: MessageEvent) => {

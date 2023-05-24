@@ -37,10 +37,12 @@ export const SessionProvider: React.FC<SessionProviderProps> = ({ children }) =>
     new Promise(async (_res, rej) => {
       try {
         const userData = await checkSessionValidity()
-        setSession({
-          isLoggedIn: true,
-          userData
-        })
+        if (userData) {
+          setSession({
+            isLoggedIn: true,
+            userData
+          })
+        }
       } catch (error){
         rej(error)
       }
@@ -55,14 +57,14 @@ export const SessionProvider: React.FC<SessionProviderProps> = ({ children }) =>
 };
 
 
-export const checkSessionValidity = async (): Promise<UserData> => {
+export const checkSessionValidity = async (): Promise<UserData | null> => {
   try {
-    const response = await fetch(`${process.env.PUBLIC_URL}/api/user_info`, { credentials: 'include' })
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/api/oauth2/github/user_info`, { credentials: 'include' })
     if (response.ok) {
       const userdata: UserData = await response.json()
       return userdata
     } else {
-      throw new Error(`Server error.`)
+      return null
     }
   } catch (error){
     throw new Error(`Failed to fetch ${error}`)
