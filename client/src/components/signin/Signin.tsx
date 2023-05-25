@@ -1,17 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Signin.css'
 import CollapseableMenu from '../collapseablemenu/CollapseableMenu';
 import { useSession } from '../wrappers/SessionContext'
 
-const SignIn: React.FC = () => {
+interface ISignIn {
+  showOverlay: boolean
+  setShowOverlay: React.Dispatch<React.SetStateAction<boolean>> 
+}
+
+const SignIn: React.FC<ISignIn> = ({ showOverlay, setShowOverlay }) => {
   const { session, setSession } = useSession()
-  
-  const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    if (!session?.userData) {
-      window.location.href = `${process.env.REACT_APP_API_URL}/api/oauth2/github/login`
-    }
-  } 
+
+  const toggleOauthSelector: React.MouseEventHandler = e => {
+    e.preventDefault();
+    setShowOverlay(true);
+  }
 
   const handleLogout = async () => {
     setSession({
@@ -59,7 +62,7 @@ const SignIn: React.FC = () => {
         )}
         {(!session.isLoggedIn || !session.userData) && (
           <>
-            <CollapseableMenu items={loginOptions} name="Sign In"/>
+            <button onClick={toggleOauthSelector}>Sign In</button>
           </>
         )}
       </div>

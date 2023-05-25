@@ -1,5 +1,6 @@
 .sign-in-container {
   padding: 20px;
+  transition: all 0.2s linear;
 }
 
 .sign-in-container form {

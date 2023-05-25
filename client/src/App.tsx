@@ -7,6 +7,7 @@ import MessageDisplay, { Message } from './components/messagedisplay/MessageDisp
 import Navigation from './components/navigation/Navigation'
 import Logo from './components/navigation/Logo'
 import Centered from './components/wrappers/Centered'
+import OauthSelector from './components/wrappers/OauthSelector'
 import { useSession, SessionProvider } from './components/wrappers/SessionContext'
 
 interface AppState {
@@ -144,12 +145,15 @@ function App() {
     }))
   }
 
+  const [showOverlay, setShowOverlay] = useState(false)
+
   return (
     <SessionProvider>
+      <OauthSelector showOverlay={showOverlay} setShowOverlay={setShowOverlay} />
       <Centered>
         <Navigation>
           <Logo />
-          <Signin/>
+          <Signin showOverlay={showOverlay} setShowOverlay={setShowOverlay} />
         </Navigation>
         <div style={{ height: '100%' }}>
           <Rooms rooms={Object.keys(state.messages)} onSelectRoom={handleSelectRoom} onAddRoom={handleAddRoom} currentRoom={state.currentChannel}/>
