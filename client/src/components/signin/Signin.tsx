@@ -34,18 +34,35 @@ const SignIn: React.FC = () => {
     }
   ]
 
+  const loginOptions = [
+    {
+      name: 'Github',
+      handler: () => {
+        window.location.href = `${process.env.REACT_APP_API_URL}/api/oauth2/github/login`
+      }
+    },
+    {
+      name: 'Google',
+      handler: () => {
+        window.location.href = `${process.env.REACT_APP_API_URL}/api/oauth2/google/login`
+      }
+    }
+  ]
+
   return (
     <div className="sign-in-container">
-      <form onSubmit={handleLogin}>
+      <div>
         {session.isLoggedIn && session.userData && (
           <>
             <CollapseableMenu items={navitems} name={session.userData.username}/>
           </>
         )}
-        {!session.isLoggedIn && (
-          <button type="submit">Sign In</button>
+        {(!session.isLoggedIn || !session.userData) && (
+          <>
+            <CollapseableMenu items={loginOptions} name="Sign In"/>
+          </>
         )}
-      </form>
+      </div>
     </div>
   );
 };

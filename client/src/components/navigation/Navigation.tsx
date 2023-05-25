@@ -5,7 +5,7 @@ interface NavigationProps {
   children: React.ReactNode;
 }
 
-const Navigation: React.FC<NavigationProps> = (props) => { // children
+const Navigation: React.FC<NavigationProps> = (props) => {
   const { children } = props;
   return (
     <div className="navigation-container shadow">
