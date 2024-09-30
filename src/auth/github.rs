@@ -82,8 +82,7 @@ impl<'r> FromRequest<'r> for UserSession {
                 info!("Get session failed?");
             }
         }
-
-        Outcome::Failure((Status::Unauthorized, UserSessionError))
+        Outcome::Error((Status::Unauthorized, UserSessionError))
     }
 }
 
@@ -115,7 +114,7 @@ pub fn login() -> Redirect {
     Redirect::found(auth_url)
 }
 
-#[get("/oauth2/github/callback?<code>")]
+#[get("/callback?<code>")]
 pub async fn oauth_callback(code: String, cookies: &CookieJar<'_>) -> Result<Redirect, String> {
     let access_token = match get_access_token(&code).await {
         Ok(token) => token,
@@ -127,18 +126,15 @@ pub async fn oauth_callback(code: String, cookies: &CookieJar<'_>) -> Result<Red
         Err(e) => return Err(format!("Failed to get user information: {}", e)),
     };
 
-    cookies.add_private(Cookie::build("username", user.login.to_string())
-        .same_site(SameSite::Strict)
-        .finish());
-    cookies.add_private(Cookie::build("user_id", user.id.to_string())
-        .same_site(SameSite::Strict)
-        .finish());
+    cookies.add_private(Cookie::build(("username", user.login.to_string())).same_site(SameSite::Strict));
+    
+    cookies.add_private(Cookie::build(("user_id", user.id.to_string()))
+        .same_site(SameSite::Strict));
 
     // gonna create the session_id right here
     let session_id = Uuid::new_v4().to_string();
-    cookies.add_private(Cookie::build("session_id", session_id.clone())
-        .same_site(SameSite::Strict)
-        .finish());
+    cookies.add_private(Cookie::build(("session_id", session_id.to_string()))
+        .same_site(SameSite::Strict));
 
     // store session in redis
     let user_info = UserInfo {
@@ -156,7 +152,7 @@ pub async fn oauth_callback(code: String, cookies: &CookieJar<'_>) -> Result<Red
 
 #[get("/logout")]
 pub fn logout(cookies: &CookieJar<'_>) -> Redirect {
-    cookies.remove_private(Cookie::named("session_id"));
+    cookies.remove_private(Cookie::from("session_id"));
     Redirect::to("/rust_chat_server")
 }
 

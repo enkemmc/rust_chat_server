@@ -11,11 +11,16 @@ use routes::chat_app::{post, events, Message};
 mod auth;
 use auth::github::{attach_github_oauth, oauth_callback, user_info, login, logout};
 
+#[get("/")]
+fn test_me() -> &'static str {
+    "Hello!"
+}
+
 
 #[launch]
 fn rocket() -> _ {
     let _ = dotenv::dotenv();
-    let chat_bundle_path = std::env::var("CHAT_BUNDLE_PATH").unwrap_or("build".to_string());
+    // let chat_bundle_path = std::env::var("CHAT_BUNDLE_PATH").unwrap_or("build".to_string());
     SimpleLogger::new()
         .with_level(LevelFilter::Info)
         .init()
@@ -26,5 +31,6 @@ fn rocket() -> _ {
         .attach(attach_github_oauth())
         .mount("/rust_chat_server/auth/github", routes![oauth_callback, user_info, login, logout])
         .mount("/rust_chat_server/api", routes![post, events])
-        .mount("/rust_chat_server", FileServer::from(chat_bundle_path))
+        .mount("/rust_chat_server/hello", routes![test_me])
+        // .mount("/rust_chat_server", FileServer::from(chat_bundle_path))
 }
